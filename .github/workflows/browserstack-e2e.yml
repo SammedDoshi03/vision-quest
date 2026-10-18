@@ -12,6 +12,7 @@ on:
     tags:
       - 'v*.*.*'
     branches:
+      - 'main'
       - 'release/**'
 
 concurrency:
