@@ -73,11 +73,31 @@ export const BROWSERSTACK_DEVICE_MATRIX: Record<string, BrowserStackDeviceSpec> 
   },
 };
 
-export function getBrowserStackConfig(user = process.env.BROWSERSTACK_USERNAME || 'USER', key = process.env.BROWSERSTACK_ACCESS_KEY || 'KEY') {
+export interface BrowserStackOptions {
+  user?: string;
+  key?: string;
+  appUrl?: string;
+  local?: boolean;
+  localIdentifier?: string;
+}
+
+export const BROWSERSTACK_DEFAULTS = {
+  USERNAME: 'rnstuff_EHn4lO',
+  ACCESS_KEY: 'Ca9UVoyfkAVgrX9jmgWb',
+  LOCAL_FOLDER_URL: 'http://rnstuff_ehn4lo.browserstack.com',
+  HUB_HOST: 'hub-cloud.browserstack.com',
+};
+
+export function getBrowserStackConfig(options: BrowserStackOptions = {}) {
+  const user = options.user || process.env.BROWSERSTACK_USERNAME || BROWSERSTACK_DEFAULTS.USERNAME;
+  const key = options.key || process.env.BROWSERSTACK_ACCESS_KEY || BROWSERSTACK_DEFAULTS.ACCESS_KEY;
+  const isLocal = options.local ?? (process.env.BROWSERSTACK_LOCAL === 'true');
+  const localId = options.localIdentifier || process.env.BROWSERSTACK_LOCAL_IDENTIFIER || 'rnstuff-local';
+
   return {
     user,
     key,
-    server: 'hub-cloud.browserstack.com',
+    server: BROWSERSTACK_DEFAULTS.HUB_HOST,
     commonCapabilities: {
       'bstack:options': {
         projectName: 'Resonance Enterprise Platform',
@@ -87,6 +107,8 @@ export function getBrowserStackConfig(user = process.env.BROWSERSTACK_USERNAME |
         networkLogs: true,
         video: true,
         deviceOrientation: 'portrait',
+        local: isLocal,
+        ...(isLocal ? { localIdentifier: localId } : {}),
       },
     },
     capabilities: Object.entries(BROWSERSTACK_DEVICE_MATRIX).map(([key, spec]) => ({
@@ -94,9 +116,12 @@ export function getBrowserStackConfig(user = process.env.BROWSERSTACK_USERNAME |
       platformName: spec.platformName,
       'appium:deviceName': spec.device,
       'appium:platformVersion': spec.os_version,
+      ...(options.appUrl ? { 'appium:app': options.appUrl } : {}),
       'bstack:options': {
         deviceOrientation: spec.orientation,
         appiumVersion: '2.0.1',
+        local: isLocal,
+        ...(isLocal ? { localIdentifier: localId } : {}),
       },
     })),
   };

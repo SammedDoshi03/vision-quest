@@ -47,8 +47,9 @@ describe('Appium & BrowserStack Mobile Automation Suite', () => {
     const fold = BROWSERSTACK_DEVICE_MATRIX.pixelFoldUnfolded;
     assert.equal(fold.category, 'foldable');
 
-    const bstack = getBrowserStackConfig('test-user', 'test-key');
+    const bstack = getBrowserStackConfig({ user: 'test-user', key: 'test-key', local: true });
     assert.equal(bstack.user, 'test-user');
+    assert.equal(bstack.commonCapabilities['bstack:options'].local, true);
     assert.ok(bstack.capabilities.length >= 5);
   });
 
