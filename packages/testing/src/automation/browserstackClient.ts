@@ -58,4 +58,30 @@ export class BrowserStackClient {
     const data = await res.json();
     return Array.isArray(data) ? data : [];
   }
+
+  /**
+   * Uploads an APK or IPA to BrowserStack App Automate.
+   */
+  async uploadApp(filePath: string, customId = 'ResonanceApp'): Promise<{ app_url: string; custom_id?: string }> {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+    const fileBuffer = fs.readFileSync(filePath);
+    const blob = new Blob([fileBuffer]);
+    const formData = new FormData();
+    formData.append('file', blob, path.basename(filePath));
+    formData.append('custom_id', customId);
+
+    const res = await fetch('https://api-cloud.browserstack.com/app-automate/upload', {
+      method: 'POST',
+      headers: { Authorization: this.authHeader },
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`BrowserStack upload failed with HTTP ${res.status}: ${errText}`);
+    }
+    return res.json() as Promise<{ app_url: string; custom_id?: string }>;
+  }
 }
+
