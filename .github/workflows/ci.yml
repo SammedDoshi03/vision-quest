@@ -52,4 +52,4 @@ jobs:
         run: pnpm typecheck
 
       - name: Verify Swagger OpenAPI Generation
-        run: npx ts-node -P apps/bff-mobile/tsconfig.json apps/bff-mobile/scripts/generate-openapi-postman.ts
+        run: pnpm --filter @resonance/bff-mobile generate:docs

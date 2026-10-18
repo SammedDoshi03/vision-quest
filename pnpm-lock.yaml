@@ -4,6 +4,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  react: ^18.3.1
+  react-native: ^0.76.1
+
 importers:
 
   .:
@@ -1477,15 +1481,15 @@ packages:
   '@react-native/virtualized-lists@0.72.8':
     resolution: {integrity: sha512-J3Q4Bkuo99k7mu+jPS9gSUSgq+lLRSI/+ahXNwV92XgJ/8UgOTxu2LPwhJnBk/sQKxq7E8WkZBnBiozukQMqrw==}
     peerDependencies:
-      react-native: '*'
+      react-native: ^0.76.1
 
   '@react-native/virtualized-lists@0.76.9':
     resolution: {integrity: sha512-2neUfZKuqMK2LzfS8NyOWOyWUJOWgDym5fUph6fN9qF+LNPjAvnc4Zr9+o+59qjNu/yXwQgVMWNU4+8WJuPVWw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@types/react': ^18.2.6
-      react: '*'
-      react-native: '*'
+      react: ^18.3.1
+      react-native: ^0.76.1
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -2943,7 +2947,7 @@ packages:
     hasBin: true
     peerDependencies:
       '@types/react': ^18.2.6
-      react: ^18.2.0
+      react: ^18.3.1
     peerDependenciesMeta:
       '@types/react':
         optional: true

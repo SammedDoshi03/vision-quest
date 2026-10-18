@@ -22,8 +22,9 @@ async function generate() {
 
   const document = SwaggerModule.createDocument(app, config);
 
-  // 1. Write Swagger OpenAPI 3.0 JSON
-  const openApiPath = path.join(process.cwd(), 'swagger-spec.json');
+  // 1. Write Swagger OpenAPI 3.0 JSON to monorepo root
+  const rootDir = path.resolve(__dirname, '../../..');
+  const openApiPath = path.join(rootDir, 'swagger-spec.json');
   fs.writeFileSync(openApiPath, JSON.stringify(document, null, 2));
   console.log(`[OpenAPI] Written to ${openApiPath}`);
 
@@ -68,7 +69,7 @@ async function generate() {
     item: postmanItems,
   };
 
-  const postmanPath = path.join(process.cwd(), 'postman-collection.json');
+  const postmanPath = path.join(rootDir, 'postman-collection.json');
   fs.writeFileSync(postmanPath, JSON.stringify(postmanCollection, null, 2));
   console.log(`[Postman] Written to ${postmanPath}`);
 
