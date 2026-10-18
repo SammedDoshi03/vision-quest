@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { BrowserStackClient, BROWSERSTACK_DEFAULTS, getBrowserStackConfig } from '../src';
+import { BrowserStackClient, BROWSERSTACK_DEFAULTS, getBrowserStackConfig } from '../src/index';
 
 test('BrowserStack Configuration defaults to provided workspace credentials', () => {
   const config = getBrowserStackConfig();

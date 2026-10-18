@@ -4,7 +4,7 @@ import {
   DynamicPageSchema,
   TEST_LOCATORS,
   HomeFeedResponseSchema,
-} from '../src';
+} from '../src/index';
 
 test('Contracts Schema Validation: DynamicPageSchema validates valid SDUI page', () => {
   const samplePage = {

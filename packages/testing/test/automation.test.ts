@@ -6,7 +6,7 @@ import {
   BROWSERSTACK_DEVICE_MATRIX,
   getBrowserStackConfig,
   runVerticalRoleSwitchAutomationFlow,
-} from '../src';
+} from '../src/index';
 
 describe('Appium & BrowserStack Mobile Automation Suite', () => {
   it('defines valid test locators across all 12 verticals and admin console', () => {

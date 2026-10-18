@@ -5,7 +5,7 @@ import {
   TextFieldType,
   BadgeVariant,
   MessageDeliveryStatus,
-} from '../src';
+} from '../src/index';
 
 test('UI Kit Design System Types: verifies all variant unions and strictly typed constants', () => {
   const toastVariants: ToastVariant[] = ['success', 'warning', 'error', 'info'];
