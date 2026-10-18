@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "appium-skill": {
+      "source": "LambdaTest/agent-skills",
+      "sourceType": "github",
+      "skillPath": "appium-skill/SKILL.md",
+      "computedHash": "d18b9b024822eb67c4c33fb783c5cd5cf7553e442cab44cd307c3ff5f0a79bba"
+    },
     "create-react-native-library": {
       "source": "callstackincubator/agent-skills",
       "sourceType": "github",

@@ -2,8 +2,8 @@
 
 > **Target Workspace:** `/Users/pratikshadoshi/RN-Stuff`  
 > **Interactive Swagger UI:** `http://localhost:4000/api/docs`  
-> **OpenAPI 3.0 Spec:** [swagger-spec.json](file:///Users/pratikshadoshi/RN-Stuff/swagger-spec.json)  
-> **Postman Collection v2.1:** [postman-collection.json](file:///Users/pratikshadoshi/RN-Stuff/postman-collection.json)
+> **OpenAPI 3.0 Spec:** [swagger-spec.json](../swagger-spec.json)  
+> **Postman Collection v2.1:** [postman-collection.json](../postman-collection.json)
 
 ---
 
@@ -13,11 +13,11 @@ Environment configurations are separated per deployment stage and strictly typed
 
 | Environment File | Stage | Data Source Mode | Database Pool | Target Use-Case |
 |---|---|---|---|---|
-| [`.env.development`](file:///Users/pratikshadoshi/RN-Stuff/.env.development) | Local Dev | `mock` (In-memory + Outbox) | 2–10 | Rapid local developer iteration without Docker |
-| [`.env.qat`](file:///Users/pratikshadoshi/RN-Stuff/.env.qat) | Quality Assurance | `mock` or `postgres` | 5–20 | Automated CI/CD integration testing |
-| [`.env.staging`](file:///Users/pratikshadoshi/RN-Stuff/.env.staging) | Pre-Production | `firebase` + `postgres` | 5–30 | End-to-end user acceptance testing (UAT) |
-| [`.env.production`](file:///Users/pratikshadoshi/RN-Stuff/.env.production) | Production | `firebase` + `postgres` (RDS HA) | 10–50 | Multi-region, high-availability live deployment |
-| [`.env.example`](file:///Users/pratikshadoshi/RN-Stuff/.env.example) | Template | N/A | N/A | Baseline schema for new developer onboarding |
+| [`.env.development`](../.env.development) | Local Dev | `mock` (In-memory + Outbox) | 2–10 | Rapid local developer iteration without Docker |
+| [`.env.qat`](../.env.qat) | Quality Assurance | `mock` or `postgres` | 5–20 | Automated CI/CD integration testing |
+| [`.env.staging`](../.env.staging) | Pre-Production | `firebase` + `postgres` | 5–30 | End-to-end user acceptance testing (UAT) |
+| [`.env.production`](../.env.production) | Production | `firebase` + `postgres` (RDS HA) | 10–50 | Multi-region, high-availability live deployment |
+| [`.env.example`](../.env.example) | Template | N/A | N/A | Baseline schema for new developer onboarding |
 
 ### How to Switch Environments:
 ```bash
@@ -60,7 +60,7 @@ You can test all endpoints directly using Postman or Insomnia without running th
 ### Option A: Import Postman Collection
 1. Open **Postman**.
 2. Click **Import** (top left).
-3. Select or drag-and-drop [`postman-collection.json`](file:///Users/pratikshadoshi/RN-Stuff/postman-collection.json).
+3. Select or drag-and-drop [`postman-collection.json`](../postman-collection.json).
 4. All collection requests are pre-configured with:
    - `{{BASE_URL}}` = `http://localhost:4000`
    - `{{JWT_TOKEN}}` = `sample_jwt_access_token`

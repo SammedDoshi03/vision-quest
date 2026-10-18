@@ -1,0 +1,166 @@
+To make Google Antigravity understand the exact boundaries of the `RN-Stuff` monorepo, you need a two-layer skill setup: **External Community Skills** for React Native, Expo, and Appium mechanics, paired with **4 Custom Project Skills (`SKILL.md`)** that enforce your Server-Driven UI (SDUI), WCAG AAA accessibility, NestJS BFF gateway, and multi-persona testing rules.
+
+---
+
+## 1. Community & Official Skills Mapped to `RN-Stuff`
+
+Run these commands from the root of `RN-Stuff` to install the external skills that match your stack:
+
+```bash
+# 1. React Native Performance, Virtualization & Monorepo Dependency Rules
+npx skills add vercel-labs/agent-skills --skill vercel-react-native-skills -y --copy
+
+# 2. Callstack Testing & Diagnostics
+npx skills add callstack/react-native-testing-library --skill react-native-testing -y --copy
+npx skills add callstackincubator/agent-skills --skill upgrading-react-native create-react-native-library -y --copy
+npx skills add callstackincubator/rozenite --skill rozenite -y --copy
+
+# 3. Appium 2.x UiAutomator2 & XCUITest Mobile Automation
+npx skills add LambdaTest/agent-skills --skill appium-skill -y --copy
+
+# 4. Antigravity Workspace Standards Plugin Validation
+agy plugin validate .agents/plugins/workspace-standards
+```
+
+---
+
+## 2. Four Custom `SKILL.md` Files Tailored for `RN-Stuff`
+
+Because external skills do not know about your `@internal/*` packages or zero-hardcoded-screen rule, place the following four custom `SKILL.md` files inside `.agents/skills/` in your repository.
+
+### Skill 1: SDUI & Dynamic Component Engine (`.agents/skills/rn-stuff-sdui/SKILL.md`)
+
+Enforces the contract between `apps/mobile`, `@internal/ui-kit`, and `@internal/contracts`.
+
+```markdown
+---
+name: rn-stuff-sdui-engine
+description: Enforces Server-Driven UI (SDUI) schema rules, zero hardcoded domain screens in apps/mobile, DynamicComponentRegistry mappings, and 60/120 FPS native animations. Triggers when creating or modifying UI screens, components in @internal/ui-kit, or schemas in @internal/contracts.
+---
+
+# RN-Stuff SDUI & UI-Kit Architecture Rules
+
+## 1. Zero Hardcoded Domain Screens in `apps/mobile`
+- NEVER create domain-specific screens (Medical, E-Commerce, Streaming, UPI Payments, Banking, Energy, 311, Chat, Delivery, Cloud Storage, Mobility, Reels) inside `apps/mobile/src/`.
+- `apps/mobile` is strictly a lightweight host shell providing `MultiNavigator`, `BiometricLockOverlay`, `GlobalErrorBoundary`, and root providers.
+- All domain UIs and dual-persona layouts (e.g., Patient/Caregiver, Shopper/Merchant, Citizen/Ward Engineer) must be declared via `DynamicPageDefinition`, `DynamicSectionDefinition`, and `DynamicComponentDefinition` schemas in `@internal/contracts` and rendered at runtime by `UniversalDynamicPage`.
+
+## 2. DynamicComponentRegistry & Virtualized List Standards
+- Every new UI primitive in `@internal/ui-kit` must be registered with a typed token in `DynamicComponentRegistry` (alongside `METRIC_CARD`, `ENTITY_LIST`, `STATUS_BANNER`, `TOGGLE_ROW`, `ACTION_BUTTON`).
+- Lists must use `OptimizedFlatList` or `OptimizedSectionList` with fixed or token-mapped `getItemLayout` offset precomputation, `initialNumToRender={10}`, `maxToRenderPerBatch={10}`, `windowSize={5}`, and `removeClippedSubviews={Platform.OS === 'android'}`.
+- Wrap complex list filters and action handlers in `useMemo` and `useCallback`, and expose programmatic scroll controls (`scrollToIndex`, `scrollToOffset`) via `forwardRef`.
+
+## 3. Animation & Hardware BackHandler Rules
+- All animations (`useScalePressAnimation`, `useFadeAnimation`, `useSlideAnimation`) MUST set `useNativeDriver: true` to run at 60/120 FPS on the native UI thread.
+- Any new modal sheet, drawer, or secondary persona view must integrate with `useHardwareBackHandler` following the 4-tier priority: (1) close modal/drawer, (2) revert secondary persona to primary persona, (3) navigate back to `DYNAMIC_SDUI`, (4) exit at root.
+```
+
+---
+
+### Skill 2: Accessibility (WCAG AAA), I18n & Biometric Security (`.agents/skills/rn-stuff-a11y-auth/SKILL.md`)
+
+Governs `@internal/a11y` and `@internal/auth` across all 12 verticals.
+
+```markdown
+---
+name: rn-stuff-a11y-and-biometrics
+description: Enforces WCAG 2.1 AA/AAA touch targets (48dp/64dp), 7:1 contrast tokens, 8-language localization, and hardware biometric state machine locks. Triggers when building interactive components, forms, themes, or authentication/security flows in @internal/a11y and @internal/auth.
+---
+
+# Accessibility, Localization & Hardware Biometric Rules
+
+## 1. WCAG 2.1 AA/AAA & Touch Target Enforcement (`@internal/a11y`)
+- Standard AA mode components must enforce a minimum `48x48 dp` hit area; Elderly/Motor Impairment AAA mode (e.g., Medical Care "Aaji" persona) must enforce `64x64 dp` touch targets.
+- All color pairings in dark and light mode (`tokens.ts`) must pass automated luminance validation for WCAG AAA `7:1` contrast compliance.
+- Dynamic state changes, toast alerts, and form errors must invoke `announceAccessibility(message)` for VoiceOver and TalkBack.
+- Wrap modal bottom sheets and blocking overlays in `A11yIsolationRoot` to hide background layers from screen reader focus.
+
+## 2. Multi-Language Localization (`useI18n`)
+- Never hardcode raw user-facing strings in components; always resolve copy via `useI18n` supporting English, Marathi, Hindi, Spanish, French, German, Japanese, and Arabic.
+
+## 3. Hardware Biometrics & Privacy Gates (`@internal/auth`)
+- When the app returns from the background or a session expires, `AuthMachine` must transition to `status: 'locked'` and mount `BiometricLockOverlay` over the viewport.
+- Hardware keys must only unlock via `unlockWithBiometrics()` using `FaceID`, `TouchID`, or Android `BiometricPrompt` backed by `expo-secure-store` with `WHEN_UNLOCKED_THIS_DEVICE_ONLY`.
+- Keep `PrivacyProtector` active to blur OS app-switcher snapshots and prevent visual leaks of medical schedules or financial balances.
+```
+
+---
+
+### Skill 3: Single-Server NestJS BFF & Resilient Networking (`.agents/skills/rn-stuff-bff-network/SKILL.md`)
+
+Governs `apps/bff-mobile`, `@internal/network`, `@internal/config`, and `@internal/server-kit`.
+
+```markdown
+---
+name: rn-stuff-bff-and-network
+description: Enforces NestJS BFF gateway conventions on port 4000, multi-datasource strategy switching, Swagger/Postman synchronization, and client Axios offline outbox retries. Triggers when editing apps/bff-mobile, @internal/network, @internal/config, or @internal/server-kit.
+---
+
+# Single-Server BFF Gateway & Network Middleware Rules
+
+## 1. Single Unified Server (`apps/bff-mobile`)
+- Do NOT spin up separate microservice servers; all 12 domain verticals live as modular NestJS modules inside `apps/bff-mobile` running on port `:4000`.
+- Every domain service must respect the `ACTIVE_DATA_SOURCE` strategy pattern in `@internal/config` (`.env.development`, `.env.qat`, `.env.staging`, `.env.production`), switching cleanly between `mock`, `firebase` (Realtime DB with SQLite fallback), and `postgres` (PostgreSQL 16 + MongoDB + `RedisCacheService`).
+- Tag all server logs with structured severity prefixes (`[INFO]`, `[WARN]`, `[ALERT]`) for the Super-Admin live stream.
+
+## 2. Contract & API Documentation Synchronization
+- Every new DTO or entity (`PatientSchedule`, `ProductItem`, `PaymentTxn`, etc.) must first be defined with Zod in `@internal/contracts`.
+- Whenever a controller route or DTO changes in `apps/bff-mobile`, regenerate and update both the root `swagger-spec.json` (served at `/api/docs`) and `postman-collection.json` (v2.1).
+
+## 3. Client Network & Offline Outbox (`@internal/network`)
+- All client HTTP calls must pass through the `@internal/network` Axios pipeline:
+  1. Request interceptor attaches bearer tokens, platform metadata, and `x-app-version` headers.
+  2. Error interceptor traps HTTP `401` for single-flight token renewal via `@internal/auth` and HTTP `503` for the Super-Admin Maintenance Window screen.
+  3. Idempotent requests use full-jitter exponential backoff, while offline mutations queue inside the local SQLite/MMKV outbox.
+```
+
+---
+
+### Skill 4: Appium 2.x & BrowserStack E2E Automation (`.agents/skills/rn-stuff-testing/SKILL.md`)
+
+Governs `@internal/testing` and `@internal/contracts` test locators.
+
+```markdown
+---
+name: rn-stuff-e2e-testing
+description: Enforces centralized testID locators, Appium 2.x WebDriverIO configurations, BrowserStack device matrix coverage, and dual-persona regression flows. Triggers when writing unit, integration, or E2E tests in @internal/testing or adding interactive elements in @internal/ui-kit.
+---
+
+# Mobile Automation & Testing Rules (`@internal/testing`)
+
+## 1. Centralized Collision-Free Locators (`testLocators.ts`)
+- Never invent ad-hoc `testID` strings inside UI components; register every navigation tab, action button, input, and persona switcher in `packages/contracts/src/testLocators.ts` (or `@internal/testing`).
+
+## 2. Appium 2.x & BrowserStack Matrix Compliance
+- E2E flows in `packages/testing/src/automation/automationFlows.ts` must support both Android `UiAutomator2` and iOS `XCUITest` in Portrait and Landscape orientations via `appium.config.ts`.
+- Ensure layout and gesture tests account for the BrowserStack target matrix (`browserstack.config.ts`): standard phones (iPhone 15 Pro, Galaxy S24 Ultra), foldables (Pixel Fold, Galaxy Z Fold 5), and large tablets (iPad Pro 12.9", Galaxy Tab S9 Ultra).
+- Every new vertical or shell change must pass the 3 core E2E regression flows: (1) Dual-persona role switching, (2) Dynamic SDUI template rendering, and (3) Biometric lock + hardware BackHandler verification.
+
+## 3. Pre-Completion Validation
+- Always execute and pass `pnpm test` and `pnpm typecheck` before completing any agent task in this repository.
+```
+
+---
+
+## 3. Verification & Execution Status
+
+All four custom skills and community skills are installed, registered, and verified in this repository:
+
+| Skill | Path | Status |
+| :--- | :--- | :--- |
+| **SDUI Engine** | [.agents/skills/rn-stuff-sdui/SKILL.md](file:///Users/pratikshadoshi/RN-Stuff/.agents/skills/rn-stuff-sdui/SKILL.md) | Active |
+| **A11y & Biometrics** | [.agents/skills/rn-stuff-a11y-auth/SKILL.md](file:///Users/pratikshadoshi/RN-Stuff/.agents/skills/rn-stuff-a11y-auth/SKILL.md) | Active |
+| **BFF & Network** | [.agents/skills/rn-stuff-bff-network/SKILL.md](file:///Users/pratikshadoshi/RN-Stuff/.agents/skills/rn-stuff-bff-network/SKILL.md) | Active |
+| **E2E Testing** | [.agents/skills/rn-stuff-testing/SKILL.md](file:///Users/pratikshadoshi/RN-Stuff/.agents/skills/rn-stuff-testing/SKILL.md) | Active |
+| **Monorepo Guardrails** | [.agents/skills/rn-monorepo-guardrails/SKILL.md](file:///Users/pratikshadoshi/RN-Stuff/.agents/skills/rn-monorepo-guardrails/SKILL.md) | Active |
+| **Appium Mobile Automation** | [.agents/skills/appium-skill/SKILL.md](file:///Users/pratikshadoshi/RN-Stuff/.agents/skills/appium-skill/SKILL.md) | Active |
+| **React Native Skills** | [.agents/skills/react-native-skills/SKILL.md](file:///Users/pratikshadoshi/RN-Stuff/.agents/skills/react-native-skills/SKILL.md) | Active |
+| **RNTL Testing** | [.agents/skills/react-native-testing/SKILL.md](file:///Users/pratikshadoshi/RN-Stuff/.agents/skills/react-native-testing/SKILL.md) | Active |
+| **Rozenite Agent** | [.agents/skills/rozenite-agent/SKILL.md](file:///Users/pratikshadoshi/RN-Stuff/.agents/skills/rozenite-agent/SKILL.md) | Active |
+| **RN Upgrades** | [.agents/skills/upgrading-react-native/SKILL.md](file:///Users/pratikshadoshi/RN-Stuff/.agents/skills/upgrading-react-native/SKILL.md) | Active |
+| **Library Scaffolding** | [.agents/skills/create-react-native-library/SKILL.md](file:///Users/pratikshadoshi/RN-Stuff/.agents/skills/create-react-native-library/SKILL.md) | Active |
+
+### Validation Results
+- `pnpm typecheck`: **11/11 tasks successful** across all 10 packages.
+- `pnpm test`: **10/10 test suites passing** across contracts, a11y, ui-kit, server-kit, network, auth, mobile, and bff-mobile.
+- `agy plugin validate`: **[ok] 13 skills processed** under `.agents/plugins/workspace-standards/`.

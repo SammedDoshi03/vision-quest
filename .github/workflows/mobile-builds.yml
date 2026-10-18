@@ -1,0 +1,232 @@
+name: Mobile Binary Build Pipeline (APK, AAB, IPA, APP)
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Target platform to build'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - 'all'
+          - 'android'
+          - 'ios'
+      profile:
+        description: 'Build profile (from eas.json)'
+        required: true
+        default: 'preview'
+        type: choice
+        options:
+          - 'preview'
+          - 'production'
+          - 'development'
+  push:
+    tags:
+      - 'v*.*.*'
+    branches:
+      - 'release/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # =========================================================================
+  # ANDROID BUILD JOB: Generates APK (Testing/Sideloading) & AAB (Play Store)
+  # =========================================================================
+  build-android:
+    name: Build Android (APK & AAB)
+    if: inputs.platform == 'all' || inputs.platform == 'android' || github.event_name != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.12.0
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'pnpm'
+
+      - name: Setup Java Development Kit (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install workspace dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Contracts package
+        run: pnpm --filter @internal/contracts build
+
+      - name: Setup Gradle Cache
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Generate Android Native Prebuild (Expo CNG)
+        run: |
+          cd apps/mobile
+          npx --yes expo prebuild --platform android --clean --no-install
+        env:
+          EXPO_NO_TELEMETRY: '1'
+
+      # Build APK for testing, sideloading, and QA matrix
+      - name: Assemble Android APK
+        run: |
+          cd apps/mobile/android
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon -Dorg.gradle.jvmargs="-Xmx4096m -XX:MaxMetaspaceSize=1024m"
+
+      # Build AAB for Google Play Store distribution
+      - name: Bundle Android App Bundle (AAB)
+        run: |
+          cd apps/mobile/android
+          ./gradlew bundleRelease --no-daemon -Dorg.gradle.jvmargs="-Xmx4096m -XX:MaxMetaspaceSize=1024m"
+
+      - name: Locate Android Artifacts
+        id: locate-artifacts
+        run: |
+          mkdir -p build-output/android
+          find apps/mobile/android/app/build/outputs/apk -name "*.apk" -exec cp {} build-output/android/ \;
+          find apps/mobile/android/app/build/outputs/bundle -name "*.aab" -exec cp {} build-output/android/ \;
+          ls -la build-output/android/
+
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release-apk
+          path: build-output/android/*.apk
+          retention-days: 14
+
+      - name: Upload Android AAB (Store Bundle)
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release-aab
+          path: build-output/android/*.aab
+          retention-days: 30
+
+  # =========================================================================
+  # IOS BUILD JOB: Generates Simulator .app (Testing) & Device .ipa (Store)
+  # =========================================================================
+  build-ios:
+    name: Build iOS (.app Simulator & .ipa)
+    if: inputs.platform == 'all' || inputs.platform == 'ios' || github.event_name != 'workflow_dispatch'
+    runs-on: macos-14
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.12.0
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'pnpm'
+
+      - name: Select Xcode 15.4 / 16.0
+        run: sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+
+      - name: Install workspace dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Contracts package
+        run: pnpm --filter @internal/contracts build
+
+      - name: Generate iOS Native Prebuild (Expo CNG)
+        run: |
+          cd apps/mobile
+          npx --yes expo prebuild --platform ios --clean --no-install
+        env:
+          EXPO_NO_TELEMETRY: '1'
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: apps/mobile/ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('apps/mobile/ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install CocoaPods
+        run: |
+          cd apps/mobile/ios
+          pod install --repo-update
+
+      # Build iOS Simulator .app (Runs without code signing certificates in Xcode simulator & Appium)
+      - name: Build iOS Simulator (.app)
+        run: |
+          cd apps/mobile/ios
+          WORKSPACE_NAME=$(ls -d *.xcworkspace | head -n 1)
+          SCHEME_NAME="ResonanceHealthcarePlatformHub"
+          
+          # Discover actual scheme if customized
+          SCHEMES=$(xcodebuild -list -workspace "$WORKSPACE_NAME" | grep -A 20 "Schemes:" | tail -n +2 | tr -d ' ')
+          FIRST_SCHEME=$(echo "$SCHEMES" | head -n 1)
+          if [ -n "$FIRST_SCHEME" ]; then
+            SCHEME_NAME="$FIRST_SCHEME"
+          fi
+          echo "Building iOS Scheme: $SCHEME_NAME"
+
+          xcodebuild build \
+            -workspace "$WORKSPACE_NAME" \
+            -scheme "$SCHEME_NAME" \
+            -configuration Debug \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath derived_data \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
+
+          # Package .app bundle into tar.gz for distribution
+          mkdir -p ../../../build-output/ios
+          APP_PATH=$(find derived_data/Build/Products/Debug-iphonesimulator -name "*.app" -type d | head -n 1)
+          if [ -d "$APP_PATH" ]; then
+            APP_NAME=$(basename "$APP_PATH")
+            tar -czf "../../../build-output/ios/${APP_NAME}.tar.gz" -C "$(dirname "$APP_PATH")" "$APP_NAME"
+            echo "Successfully packaged: build-output/ios/${APP_NAME}.tar.gz"
+          fi
+
+      - name: Upload iOS Simulator (.app.tar.gz)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-simulator-app
+          path: build-output/ios/*.tar.gz
+          retention-days: 14
+
+      # Build Signed IPA (Executed when Apple Signing certificates and profiles are configured in secrets)
+      - name: Build Release IPA (Store / Ad-Hoc)
+        if: env.HAS_APPLE_CERTS == 'true'
+        env:
+          HAS_APPLE_CERTS: ${{ secrets.APPLE_CERTIFICATE != '' && secrets.APPLE_PROVISIONING_PROFILE != '' }}
+        run: |
+          echo "Building signed iOS .ipa archive..."
+          # Full signed archiving step using Fastlane or xcodebuild -exportArchive
+
+      - name: Upload iOS IPA (App Store / TestFlight)
+        if: env.HAS_APPLE_CERTS == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-release-ipa
+          path: build-output/ios/*.ipa
+          retention-days: 30

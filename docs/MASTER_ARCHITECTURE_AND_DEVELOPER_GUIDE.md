@@ -72,7 +72,7 @@ RN-Stuff/
 
 ### Hardware BackHandler & Gesture Handling
 To avoid unhandled Android hardware back presses crashing or unexpectedly closing the app:
-- Handled through [`useHardwareBackHandler`](file:///Users/pratikshadoshi/RN-Stuff/packages/ui-kit/src/components/useHardwareBackHandler.ts).
+- Handled through [`useHardwareBackHandler`](../packages/ui-kit/src/components/useHardwareBackHandler.ts).
 - Priority order:
   1. If navigation drawer or modal sheet is open: closes the sheet/drawer (`return true`).
   2. If the user is on a secondary persona or drilldown: reverts to the primary persona (`return true`).
@@ -80,7 +80,7 @@ To avoid unhandled Android hardware back presses crashing or unexpectedly closin
   4. At root: passes through to OS default exit (`return false`).
 
 ### Virtualized Lists: `OptimizedFlatList` & `OptimizedSectionList`
-Located in [`packages/ui-kit/src/components/OptimizedVirtualizedList.tsx`](file:///Users/pratikshadoshi/RN-Stuff/packages/ui-kit/src/components/OptimizedVirtualizedList.tsx):
+Located in [`packages/ui-kit/src/components/OptimizedVirtualizedList.tsx`](../packages/ui-kit/src/components/OptimizedVirtualizedList.tsx):
 - **Predictable Scrolling (`getItemLayout`):** Precomputes item offsets to eliminate blank render jumps when scrolling at high velocities.
 - **Windowed Rendering:**
   ```tsx
@@ -97,14 +97,14 @@ Located in [`packages/ui-kit/src/components/OptimizedVirtualizedList.tsx`](file:
 - Dynamic data transformations (e.g. filtering sections by active role) are memoized with `useMemo`.
 
 ### 60/120 FPS Native-Driven Animations
-Located in [`packages/ui-kit/src/components/useNativeAnimations.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/ui-kit/src/components/useNativeAnimations.ts):
-- [`useScalePressAnimation`](file:///Users/pratikshadoshi/RN-Stuff/packages/ui-kit/src/components/useNativeAnimations.ts): Bounces buttons subtly (scale `0.96` on touch down, spring back to `1.0` on release).
-- [`useFadeAnimation`](file:///Users/pratikshadoshi/RN-Stuff/packages/ui-kit/src/components/useNativeAnimations.ts): Smooth opacity transitions for content panels.
-- [`useSlideAnimation`](file:///Users/pratikshadoshi/RN-Stuff/packages/ui-kit/src/components/useNativeAnimations.ts): Spring-driven translateY movements for slide-up modals.
+Located in [`packages/ui-kit/src/components/useNativeAnimations.ts`](../packages/ui-kit/src/components/useNativeAnimations.ts):
+- [`useScalePressAnimation`](../packages/ui-kit/src/components/useNativeAnimations.ts): Bounces buttons subtly (scale `0.96` on touch down, spring back to `1.0` on release).
+- [`useFadeAnimation`](../packages/ui-kit/src/components/useNativeAnimations.ts): Smooth opacity transitions for content panels.
+- [`useSlideAnimation`](../packages/ui-kit/src/components/useNativeAnimations.ts): Spring-driven translateY movements for slide-up modals.
 - **Always uses `useNativeDriver: true`** to offload transforms directly to the UI thread, bypassing JavaScript bridge frame drops.
 
 ### Client & Network Middleware Pipeline
-Located in [`packages/network/src/client.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/network/src/client.ts):
+Located in [`packages/network/src/client.ts`](../packages/network/src/client.ts):
 - **Request Interceptor:** Injects bearer tokens and client metadata headers (`x-app-version`, `x-client-platform`).
 - **Response Error Interceptor:** Intercepts HTTP 401s, dispatches single-flight refresh token exchange via `@internal/auth`, and replays failed in-flight requests.
 - **Exponential Backoff & Jitter:** Automatically retries idempotent operations (GET/PUT) with randomized exponential jitter.
@@ -114,14 +114,14 @@ Located in [`packages/network/src/client.ts`](file:///Users/pratikshadoshi/RN-St
 ## 3. Global Styling & Design System
 
 ### Theme Tokens Hierarchy
-Defined in [`packages/ui-kit/src/theme/tokens.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/ui-kit/src/theme/tokens.ts):
+Defined in [`packages/ui-kit/src/theme/tokens.ts`](../packages/ui-kit/src/theme/tokens.ts):
 - **Color Palettes:** Curated dark mode (`#0B0C10`), elevated surfaces (`#1F202B`), borders, semantic alerts, and primary accents.
 - **Spacing Scale:** Modular powers: `xs: 4`, `sm: 8`, `md: 16`, `lg: 24`, `xl: 32`, `xxl: 48`.
 - **Border Radii:** `sm: 8`, `md: 14`, `lg: 24`, `full: 9999`.
 - **Typography:** Strictly defined font sizes and line heights (`title1: 28/34`, `body: 15/22`, `callout: 14/20`).
 
 ### Dynamic `useGlobalStyles` Hook
-Located in [`packages/ui-kit/src/theme/globalStyles.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/ui-kit/src/theme/globalStyles.ts):
+Located in [`packages/ui-kit/src/theme/globalStyles.ts`](../packages/ui-kit/src/theme/globalStyles.ts):
 - Provides ready-to-use style tokens (`rootContainer`, `cardContainer`, `elevatedCard`, `spaceBetweenRow`, `responsiveContent`, `h1`, `h2`, `badge`).
 - Automatically adapts to the active device class (`phone`, `tablet`, `desktop`) and current theme.
 
@@ -129,13 +129,13 @@ Located in [`packages/ui-kit/src/theme/globalStyles.ts`](file:///Users/pratiksha
 
 ## 4. Global Accessibility (A11y) Engine
 
-Located in [`packages/a11y/src/globalA11y.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/a11y/src/globalA11y.ts):
-1. **Screen Reader Speech Announcements:** [`announceAccessibility(message)`](file:///Users/pratikshadoshi/RN-Stuff/packages/a11y/src/globalA11y.ts) dynamically informs VoiceOver/TalkBack users of state changes (e.g., *"Dose taken"*, *"Cart item added"*).
+Located in [`packages/a11y/src/globalA11y.ts`](../packages/a11y/src/globalA11y.ts):
+1. **Screen Reader Speech Announcements:** [`announceAccessibility(message)`](../packages/a11y/src/globalA11y.ts) dynamically informs VoiceOver/TalkBack users of state changes (e.g., *"Dose taken"*, *"Cart item added"*).
 2. **Minimum Touch Target Standards:**
    - Standard Mode (AA): **48x48 dp** minimum target.
-   - Elderly & Motor Impairment Mode (AAA): **64x64 dp** target enforced via [`checkMinimumTouchTarget`](file:///Users/pratikshadoshi/RN-Stuff/packages/a11y/src/globalA11y.ts).
-3. **Contrast Ratio Validator:** [`contrastRatio`](file:///Users/pratikshadoshi/RN-Stuff/packages/a11y/src/contrast.ts) tests foreground and background luminance to guarantee WCAG compliance.
-4. **Modal Focus Traps:** [`A11yIsolationRoot`](file:///Users/pratikshadoshi/RN-Stuff/packages/a11y/src/provider.tsx) hides background elements from accessibility focus trees when modals are active.
+   - Elderly & Motor Impairment Mode (AAA): **64x64 dp** target enforced via [`checkMinimumTouchTarget`](../packages/a11y/src/globalA11y.ts).
+3. **Contrast Ratio Validator:** [`contrastRatio`](../packages/a11y/src/contrast.ts) tests foreground and background luminance to guarantee WCAG compliance.
+4. **Modal Focus Traps:** [`A11yIsolationRoot`](../packages/a11y/src/provider.tsx) hides background elements from accessibility focus trees when modals are active.
 
 ---
 
@@ -146,13 +146,13 @@ In high-scale enterprise ecosystems, hardcoding individual screen files for ever
 Our **Server-Driven UI (SDUI)** engine allows the BFF or local JSON configuration to drive complete screens dynamically!
 
 ### Architecture & Components
-1. **Contracts ([`packages/contracts/src/dynamic-ui.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/contracts/src/dynamic-ui.ts)):**
+1. **Contracts ([`packages/contracts/src/dynamic-ui.ts`](../packages/contracts/src/dynamic-ui.ts)):**
    - Defines `DynamicComponentDefinition`, `DynamicSectionDefinition`, and `DynamicPageDefinition`.
-2. **Component Registry ([`packages/ui-kit/src/dynamic/DynamicComponentRegistry.tsx`](file:///Users/pratikshadoshi/RN-Stuff/packages/ui-kit/src/dynamic/DynamicComponentRegistry.tsx)):**
+2. **Component Registry ([`packages/ui-kit/src/dynamic/DynamicComponentRegistry.tsx`](../packages/ui-kit/src/dynamic/DynamicComponentRegistry.tsx)):**
    - Maps atomic component types (`METRIC_CARD`, `ENTITY_LIST`, `STATUS_BANNER`, `TOGGLE_ROW`, `ACTION_BUTTON`) to fully accessible, styled React Native atoms.
-3. **Universal Dynamic Page ([`packages/ui-kit/src/dynamic/UniversalDynamicPage.tsx`](file:///Users/pratikshadoshi/RN-Stuff/packages/ui-kit/src/dynamic/UniversalDynamicPage.tsx)):**
+3. **Universal Dynamic Page ([`packages/ui-kit/src/dynamic/UniversalDynamicPage.tsx`](../packages/ui-kit/src/dynamic/UniversalDynamicPage.tsx)):**
    - Orchestrates dynamic pages with role switching, responsive split layouts, BackHandler integration, and action dispatching.
-4. **Pre-Built Dynamic Templates ([`packages/contracts/src/dynamic-templates.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/contracts/src/dynamic-templates.ts)):**
+4. **Pre-Built Dynamic Templates ([`packages/contracts/src/dynamic-templates.ts`](../packages/contracts/src/dynamic-templates.ts)):**
    - Contains ready-to-render templates (`DYNAMIC_ECOMMERCE_TEMPLATE`, `DYNAMIC_MEDICAL_TEMPLATE`).
 
 ---
@@ -178,7 +178,7 @@ Our **Server-Driven UI (SDUI)** engine allows the BFF or local JSON configuratio
 
 ## 7. Super-Admin Support & Operational Command Console
 
-Implemented in [`apps/mobile/src/features/admin/AdminDashboardView.tsx`](file:///Users/pratikshadoshi/RN-Stuff/apps/mobile/src/features/admin/AdminDashboardView.tsx):
+Implemented in [`apps/mobile/src/features/admin/AdminDashboardView.tsx`](../apps/mobile/src/features/admin/AdminDashboardView.tsx):
 - **Live Platform KPIs:** Active Users (24,891), Total GMV (₹2.48 Cr), Public 311 SLA (94.2%), Fleet Count (1,420).
 - **Master Killswitches:** UPI Gateway rail status, Express Surge pricing toggle, Scheduled Maintenance window.
 - **Expo OTA Rollout:** Staged firmware/app bundle rollout simulation (+25% increments).
@@ -189,39 +189,39 @@ Implemented in [`apps/mobile/src/features/admin/AdminDashboardView.tsx`](file://
 
 ## 8. Mobile Automation Strategy (Appium & BrowserStack)
 
-Located in [`packages/testing/src/automation/`](file:///Users/pratikshadoshi/RN-Stuff/packages/testing/src/automation/):
-1. **Central Locators Registry ([`testLocators.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/testing/src/automation/testLocators.ts)):** Standardized `testID`s across all UI elements.
-2. **Appium 2.x WebDriverIO Config ([`appium.config.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/testing/src/automation/appium.config.ts)):** Android UiAutomator2 and iOS XCUITest runner capabilities with dual-orientation testing.
-3. **BrowserStack Device Matrix ([`browserstack.config.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/testing/src/automation/browserstack.config.ts)):**
+Located in [`packages/testing/src/automation/`](../packages/testing/src/automation/):
+1. **Central Locators Registry ([`testLocators.ts`](../packages/testing/src/automation/testLocators.ts)):** Standardized `testID`s across all UI elements.
+2. **Appium 2.x WebDriverIO Config ([`appium.config.ts`](../packages/testing/src/automation/appium.config.ts)):** Android UiAutomator2 and iOS XCUITest runner capabilities with dual-orientation testing.
+3. **BrowserStack Device Matrix ([`browserstack.config.ts`](../packages/testing/src/automation/browserstack.config.ts)):**
    - Standard Phones (19.5:9): iPhone 15 Pro, Samsung S24 Ultra.
    - Foldables (~8:7.1): Google Pixel Fold, Galaxy Z Fold 5.
    - Tablets (4:3 & 16:10): iPad Pro 12.9", Galaxy Tab S9 Ultra.
-4. **E2E Automation Flows ([`automationFlows.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/testing/src/automation/automationFlows.ts)):** Automated test suites verifying role transitions, screen rotation, and admin telemetry.
+4. **E2E Automation Flows ([`automationFlows.ts`](../packages/testing/src/automation/automationFlows.ts)):** Automated test suites verifying role transitions, screen rotation, and admin telemetry.
 
 ---
 
 ## 9. BFF Gateway, OpenAPI Swagger, Postman & Environments
 
-Located in [`apps/bff-mobile/`](file:///Users/pratikshadoshi/RN-Stuff/apps/bff-mobile/):
+Located in [`apps/bff-mobile/`](../apps/bff-mobile/):
 - **Single-Server Architecture:** Centralized NestJS gateway managing all domain modules (`MedicalModule`, `ReelsModule`, `SystemModule`, `RedisCacheService`, `PushNotificationService`).
 - **Interactive Swagger UI:** Accessible at `http://localhost:4000/api/docs`.
 - **Exported Specs:**
-  - OpenAPI Specification: [`swagger-spec.json`](file:///Users/pratikshadoshi/RN-Stuff/swagger-spec.json).
-  - Postman v2.1 Collection: [`postman-collection.json`](file:///Users/pratikshadoshi/RN-Stuff/postman-collection.json).
+  - OpenAPI Specification: [`swagger-spec.json`](../swagger-spec.json).
+  - Postman v2.1 Collection: [`postman-collection.json`](../postman-collection.json).
 - **Environment Profiles:** Typed by `@internal/config` across `.env.development`, `.env.qat`, `.env.staging`, and `.env.production`.
 
 ## 10. Hardware Biometrics & Security Architecture
 
-Located in [`packages/ui-kit/src/components/useBiometrics.ts`](file:///Users/pratikshadoshi/RN-Stuff/packages/ui-kit/src/components/useBiometrics.ts) and [`apps/mobile/src/shell/BiometricLockOverlay.tsx`](file:///Users/pratikshadoshi/RN-Stuff/apps/mobile/src/shell/BiometricLockOverlay.tsx):
+Located in [`packages/ui-kit/src/components/useBiometrics.ts`](../packages/ui-kit/src/components/useBiometrics.ts) and [`apps/mobile/src/shell/BiometricLockOverlay.tsx`](../apps/mobile/src/shell/BiometricLockOverlay.tsx):
 
 1. **Native Hardware Integration:**
    - Evaluates hardware availability and enrollment for `FaceID` (iOS), `TouchID` (iOS), and `BiometricPrompt` (Android StrongBox / Keymaster).
-   - Configured via Android `USE_BIOMETRIC`, `USE_FINGERPRINT` permissions and iOS `NSFaceIDUsageDescription` in [`app.json`](file:///Users/pratikshadoshi/RN-Stuff/apps/mobile/app.json).
+   - Configured via Android `USE_BIOMETRIC`, `USE_FINGERPRINT` permissions and iOS `NSFaceIDUsageDescription` in [`app.json`](../apps/mobile/app.json).
 2. **State Machine Lock & Key Protection:**
-   - Seamlessly integrated into [`AuthMachine`](file:///Users/pratikshadoshi/RN-Stuff/packages/auth/src/machine.ts): when the app returns from background or when a secure session expires, the app enters `status: 'locked'`.
+   - Seamlessly integrated into [`AuthMachine`](../packages/auth/src/machine.ts): when the app returns from background or when a secure session expires, the app enters `status: 'locked'`.
    - Hardware keys can only be unlocked through `unlockWithBiometrics()` backed by Secure Keystore (`expo-secure-store` with `WHEN_UNLOCKED_THIS_DEVICE_ONLY`).
 3. **UX Security Gate:**
-   - [`BiometricLockOverlay`](file:///Users/pratikshadoshi/RN-Stuff/apps/mobile/src/shell/BiometricLockOverlay.tsx) mounts over the entire screen when `auth.status === 'locked'`, preventing unauthorized visual access to financial or patient health data.
+   - [`BiometricLockOverlay`](../apps/mobile/src/shell/BiometricLockOverlay.tsx) mounts over the entire screen when `auth.status === 'locked'`, preventing unauthorized visual access to financial or patient health data.
    - Fallback to device PIN/passcode is supported when biometric attempts fail.
 
 ---
