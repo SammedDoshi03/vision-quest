@@ -1,0 +1,772 @@
+{
+  "info": {
+    "name": "Resonance Multi-Vertical BFF API Collection",
+    "description": "Ready-to-import Postman collection for testing all BFF endpoints directly",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:4000"
+    },
+    {
+      "key": "JWT_TOKEN",
+      "value": "sample_jwt_access_token"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET /v1/feed/home",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/feed/home",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "feed",
+            "home"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /v1/scenes/check-in",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/scenes/check-in",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "scenes",
+            "check-in"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /v1/scenes/wave",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/scenes/wave",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "scenes",
+            "wave"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST /v1/interactions/kudos",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/interactions/kudos",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "interactions",
+            "kudos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get patient's medication schedule for today",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/medical/patients/{patientId}/schedules",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "medical",
+            "patients",
+            "{patientId}",
+            "schedules"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Acknowledge dose taken by patient (1-tap action)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/medical/patients/{patientId}/reminders/{reminderId}/taken",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "medical",
+            "patients",
+            "{patientId}",
+            "reminders",
+            "{reminderId}",
+            "taken"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Add a new prescription medication schedule (Caregiver action)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/medical/patients/{patientId}/reminders",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "medical",
+            "patients",
+            "{patientId}",
+            "reminders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Deactivate / remove a medication reminder",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/medical/patients/{patientId}/reminders/{reminderId}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "medical",
+            "patients",
+            "{patientId}",
+            "reminders",
+            "{reminderId}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Retrieve patient profile, emergency contact, and accessibility settings",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/medical/patients/{patientId}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "medical",
+            "patients",
+            "{patientId}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get urgent alerts for caregiver (missed doses, SOS triggers)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/medical/caregivers/{caregiverUid}/alerts",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "medical",
+            "caregivers",
+            "{caregiverUid}",
+            "alerts"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Acknowledge/dismiss caregiver alert",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/medical/caregivers/alerts/{alertId}/ack",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "medical",
+            "caregivers",
+            "alerts",
+            "{alertId}",
+            "ack"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Pair patient with caregiver using Login ID and 4-digit PIN",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/medical/pairing",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "medical",
+            "pairing"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get personalized short-form video reels feed",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/reels/feed",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "reels",
+            "feed"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Toggle like status for reel (Double-tap action)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/reels/{reelId}/like",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "reels",
+            "{reelId}",
+            "like"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Check maintenance window and version update requirements",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/system/status",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "system",
+            "status"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Submit in-app satisfaction score and review feedback",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/system/rating",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "system",
+            "rating"
+          ]
+        }
+      }
+    },
+    {
+      "name": "List all available dynamic SDUI domain templates",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/sdui/domains",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "sdui",
+            "domains"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Fetch dynamic page layout and components for a domain vertical",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/sdui/pages/{domainKey}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "sdui",
+            "pages",
+            "{domainKey}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Publish or hot-patch dynamic layout from Admin/CMS console",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{JWT_TOKEN}}"
+          },
+          {
+            "key": "x-client-platform",
+            "value": "ios"
+          },
+          {
+            "key": "x-client-version",
+            "value": "1.0.0"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/v1/sdui/pages/{domainKey}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "v1",
+            "sdui",
+            "pages",
+            "{domainKey}"
+          ]
+        }
+      }
+    }
+  ]
+}

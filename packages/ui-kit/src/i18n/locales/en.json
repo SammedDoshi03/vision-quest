@@ -1,0 +1,22 @@
+{
+  "login.title": "Patient Sign In",
+  "login.id_label": "Patient ID",
+  "login.pin_label": "4-Digit Security PIN",
+  "login.submit": "Sign In",
+  "reminders.title": "Today's Medications",
+  "reminders.due_now": "Due Now",
+  "reminders.taken": "Taken",
+  "reminders.upcoming": "Upcoming",
+  "reminders.missed": "Missed",
+  "action.take_it": "I Took It",
+  "action.snooze": "Remind in 10 Mins",
+  "action.call_patient": "Call Patient",
+  "profile.emergency": "Emergency Contact",
+  "profile.call_now": "Call Immediately",
+  "profile.text_size": "Text Size",
+  "caregiver.dashboard": "Mom's Adherence Dashboard",
+  "caregiver.adherence_rate": "7-Day Adherence",
+  "caregiver.alerts_title": "Critical Alerts",
+  "caregiver.add_schedule": "Add Prescription",
+  "caregiver.patient_paired": "Monitored Patient"
+}

@@ -1,0 +1,5 @@
+1. gesture handler, backhandler , scrollview, list, sectionlist, flatlist, all there aspects , any ref, usemeo, animation , middleware,  are we considering all the factors rigjt ? 
+2. where is full documentaion of everything, 
+3. global style 
+4. globle accessibility functions
+5. I want to have dymanic component and places not like the each domain has it own hardcode page ? 

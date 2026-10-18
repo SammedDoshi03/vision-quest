@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "create-react-native-library": {
+      "source": "callstackincubator/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/create-react-native-library/SKILL.md",
+      "computedHash": "3bac367718298bbdb0a1169bc7ea2478d77e6c88b3f02d45406027cbf1e93169"
+    },
+    "react-native-testing": {
+      "source": "callstack/react-native-testing-library",
+      "sourceType": "github",
+      "skillPath": "skills/react-native-testing/SKILL.md",
+      "computedHash": "bb30ad4660a42c71178c91d7a3f2e88556add9dba2213ee26f099dbe352fd649"
+    },
+    "rozenite": {
+      "source": "callstackincubator/rozenite",
+      "sourceType": "github",
+      "skillPath": "packages/cli/skills/rozenite/SKILL.md",
+      "computedHash": "ad4af8526c7857048f884918fd5325fdf710b9faa2d0112e64c9f1492baf912e"
+    },
+    "upgrading-react-native": {
+      "source": "callstackincubator/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/upgrading-react-native/SKILL.md",
+      "computedHash": "91434efaa15e8134ba1a388ac829d06d0c8746455ce1b4a0cb27cb4b6d701d2a"
+    },
+    "vercel-react-native-skills": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-native-skills/SKILL.md",
+      "computedHash": "41d24eafa7c3d82e270439808f7cfbc4d51aeb2d14f2809a2267c16275784d06"
+    }
+  }
+}

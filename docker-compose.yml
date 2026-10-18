@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  bff-gateway:
+    build:
+      context: .
+      dockerfile: apps/bff-mobile/Dockerfile
+    container_name: enterprise-bff-gateway
+    ports:
+      - '4000:4000'
+    environment:
+      - PORT=4000
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_NAME=resonance_dev
+      - MONGO_URI=mongodb://mongo:27017/resonance_dev
+    depends_on:
+      - redis
+      - postgres
+      - mongo
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: enterprise-redis-cache
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: enterprise-postgres-db
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: resonance_dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7.0
+    container_name: enterprise-mongo-db
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  postgres_data:
+  mongo_data:

@@ -1,0 +1,498 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/feed/home": {
+      "get": {
+        "operationId": "FeedController_getHomeFeed",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Feed"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/scenes/check-in": {
+      "post": {
+        "operationId": "ScenesController_checkIn",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Scenes"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/scenes/wave": {
+      "post": {
+        "operationId": "ScenesController_sendWave",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Scenes"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/interactions/kudos": {
+      "post": {
+        "operationId": "InteractionsController_giveKudos",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Interactions"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/medical/patients/{patientId}/schedules": {
+      "get": {
+        "operationId": "MedicalController_getTodaySchedules",
+        "summary": "Get patient's medication schedule for today",
+        "parameters": [
+          {
+            "name": "patientId",
+            "required": true,
+            "in": "path",
+            "description": "Unique patient identifier (e.g. pt_101)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of active medication reminders"
+          }
+        },
+        "tags": [
+          "Medical"
+        ]
+      }
+    },
+    "/medical/patients/{patientId}/reminders/{reminderId}/taken": {
+      "post": {
+        "operationId": "MedicalController_markAsTaken",
+        "summary": "Acknowledge dose taken by patient (1-tap action)",
+        "parameters": [
+          {
+            "name": "patientId",
+            "required": true,
+            "in": "path",
+            "description": "Patient UID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reminderId",
+            "required": true,
+            "in": "path",
+            "description": "Reminder Schedule ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dose marked as taken successfully"
+          }
+        },
+        "tags": [
+          "Medical"
+        ]
+      }
+    },
+    "/medical/patients/{patientId}/reminders": {
+      "post": {
+        "operationId": "MedicalController_createReminder",
+        "summary": "Add a new prescription medication schedule (Caregiver action)",
+        "parameters": [
+          {
+            "name": "patientId",
+            "required": true,
+            "in": "path",
+            "description": "Patient UID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Schedule created with new ID"
+          }
+        },
+        "tags": [
+          "Medical"
+        ]
+      }
+    },
+    "/medical/patients/{patientId}/reminders/{reminderId}": {
+      "delete": {
+        "operationId": "MedicalController_deleteReminder",
+        "summary": "Deactivate / remove a medication reminder",
+        "parameters": [
+          {
+            "name": "patientId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reminderId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Medical"
+        ]
+      }
+    },
+    "/medical/patients/{patientId}": {
+      "get": {
+        "operationId": "MedicalController_getPatientProfile",
+        "summary": "Retrieve patient profile, emergency contact, and accessibility settings",
+        "parameters": [
+          {
+            "name": "patientId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Medical"
+        ]
+      }
+    },
+    "/medical/caregivers/{caregiverUid}/alerts": {
+      "get": {
+        "operationId": "MedicalController_getCaregiverAlerts",
+        "summary": "Get urgent alerts for caregiver (missed doses, SOS triggers)",
+        "parameters": [
+          {
+            "name": "caregiverUid",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Medical"
+        ]
+      }
+    },
+    "/medical/caregivers/alerts/{alertId}/ack": {
+      "post": {
+        "operationId": "MedicalController_acknowledgeAlert",
+        "summary": "Acknowledge/dismiss caregiver alert",
+        "parameters": [
+          {
+            "name": "alertId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Medical"
+        ]
+      }
+    },
+    "/medical/pairing": {
+      "post": {
+        "operationId": "MedicalController_pairPatient",
+        "summary": "Pair patient with caregiver using Login ID and 4-digit PIN",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "patientLoginId": {
+                    "type": "string",
+                    "example": "AAJI101"
+                  },
+                  "pin": {
+                    "type": "string",
+                    "example": "1234"
+                  },
+                  "caregiverUid": {
+                    "type": "string",
+                    "example": "cg_202"
+                  }
+                },
+                "required": [
+                  "patientLoginId",
+                  "pin",
+                  "caregiverUid"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Medical"
+        ]
+      }
+    },
+    "/v1/reels/feed": {
+      "get": {
+        "operationId": "ReelsController_getFeed",
+        "summary": "Get personalized short-form video reels feed",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of video reels with engagement metrics"
+          }
+        },
+        "tags": [
+          "Reels"
+        ]
+      }
+    },
+    "/v1/reels/{reelId}/like": {
+      "post": {
+        "operationId": "ReelsController_toggleLike",
+        "summary": "Toggle like status for reel (Double-tap action)",
+        "parameters": [
+          {
+            "name": "reelId",
+            "required": true,
+            "in": "path",
+            "description": "Reel ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Reels"
+        ]
+      }
+    },
+    "/v1/system/status": {
+      "get": {
+        "operationId": "SystemController_getSystemStatus",
+        "summary": "Check maintenance window and version update requirements",
+        "parameters": [
+          {
+            "name": "currentVersion",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "example": "1.0.0"
+            }
+          },
+          {
+            "name": "platform",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "example": "ios"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "System"
+        ]
+      }
+    },
+    "/v1/system/rating": {
+      "post": {
+        "operationId": "SystemController_submitInAppRating",
+        "summary": "Submit in-app satisfaction score and review feedback",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "System"
+        ]
+      }
+    },
+    "/v1/sdui/domains": {
+      "get": {
+        "operationId": "SduiController_getDomains",
+        "summary": "List all available dynamic SDUI domain templates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Server-Driven UI"
+        ]
+      }
+    },
+    "/v1/sdui/pages/{domainKey}": {
+      "get": {
+        "operationId": "SduiController_getPageDefinition",
+        "summary": "Fetch dynamic page layout and components for a domain vertical",
+        "parameters": [
+          {
+            "name": "domainKey",
+            "required": true,
+            "in": "path",
+            "description": "One of the 12 domain keys",
+            "schema": {
+              "example": "MEDICAL",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Server-Driven UI"
+        ]
+      },
+      "post": {
+        "operationId": "SduiController_updatePageDefinition",
+        "summary": "Publish or hot-patch dynamic layout from Admin/CMS console",
+        "parameters": [
+          {
+            "name": "domainKey",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Server-Driven UI"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Enterprise Multi-Vertical Mobile BFF API",
+    "description": "Unified Backend-For-Frontend gateway orchestrating mobile APIs across Medical Adherence, E-Commerce, Streaming, Payments, Banking, Energy, and GovTech.",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "Medical",
+      "description": "Elderly chronic care adherence, caregiver pairing, and alarms"
+    },
+    {
+      "name": "Feed",
+      "description": "Anti-swipe resonance feed orchestration"
+    },
+    {
+      "name": "Scenes",
+      "description": "Physical micro-events and venues"
+    },
+    {
+      "name": "Interactions",
+      "description": "Mutual resonance waves and quests"
+    }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {}
+  }
+}

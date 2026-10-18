@@ -1,0 +1,79 @@
+{
+  "expo": {
+    "name": "Resonance Healthcare & Platform Hub",
+    "slug": "resonance-platform",
+    "scheme": "resonance",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "jsEngine": "hermes",
+    "newArchEnabled": true,
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0F172A"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.resonance.healthcare",
+      "associatedDomains": [
+        "applinks:resonance.app"
+      ],
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to verify prescription medication labels and civic grievance proofs.",
+        "NSFaceIDUsageDescription": "Use FaceID for secure, accessible biometrics to unlock patient healthcare records.",
+        "UIBackgroundModes": [
+          "remote-notification",
+          "audio"
+        ]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0F172A"
+      },
+      "package": "com.resonance.healthcare",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            { "scheme": "resonance" },
+            { "scheme": "https", "host": "resonance.app", "pathPrefix": "/open" }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
+      "permissions": [
+        "SCHEDULE_EXACT_ALARM",
+        "POST_NOTIFICATIONS",
+        "VIBRATE",
+        "RECEIVE_BOOT_COMPLETED",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT",
+        "CAMERA"
+      ]
+    },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#0F766E",
+          "sounds": [
+            "./assets/sounds/medication_chime.wav"
+          ]
+        }
+      ]
+    ]
+  }
+}

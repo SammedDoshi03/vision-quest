@@ -1,0 +1,35 @@
+make everything as re-usable ( we can't say we are doing mono repo and have custom medical ui and functionality and same for others )
+secondly, where are the config files ( for dev, qat, stage, prod configyratiion), where is the .env file to handle all of this 
+third, for all these services do we have any kind of swagger (openapi ) or not?
+fourth, we will have to use the config files or env vars to decide the environment and accordingly load the services and configuration ( like if qat mode then load qat services, if prod then prod )
+fifth,  can we use some external tool like postman to test all these endpoints directly?
+sixth, do we have a documentation for all this?
+seventh, this is not the architecture of bff  (where we have multiple microservice architectures )
+eighth, we have used the random id and stuff for now.. (for cart, orders, products).. 
+ninth, we have to use the react-query / tanstack query or something to handle all the caching and stuff (for cart, orders, products).. 
+tenth, can we use the redis for caching and stuff? 
+eleventh, we haven't use the firebase for real for now
+twelve, where are the database configuration, 
+thirteen, what about the push notifications? and how we are going to handle this..      
+fourteen, what about ci cd pipeline and stuff?
+fifteen,  do we have any kind of monitoring and logging in place.. 
+sixteen, we can't have a seprate server for each of the feature, we have to have a single server which will handle all the features.. 
+seventeen, multi navigation, ( hambuger draver, botton-nav, stack navigation) support is added ? 
+eighteen, what about the testing?  unit testing, integration testing, e2e testing
+nineteen, for each feature we have to have a different different UI ..  
+twenty, what about the i18n and localization support ? 
+twenty-one, what about user experience did we handle that in multiple cases? 
+twenty-two, we did not included the social media like intagram reel or tictok in our project add that as well socail media support also
+twenty-three, in app rating, 
+twenty-four, application setting in-app(setting)
+twenty-five ( expo ota update support)
+twenty-six (new update availble support) 
+twenty-seven ( maintance widow support)
+twenty-eight ( error handiling )
+twenty-nine ( app icon )
+thirty (splash screen, lottie animation)
+thirty-one (keyboard managment )
+thirty-two (native sdk managment )
+thirty-three (dark mode , color contrats managment)
+thirty-four (global error boundary)
+

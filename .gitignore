@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+.turbo/
+
+# Environment files (untracked for security)
+.env.*
+!.env.example
+
+# Native Mobile builds
+ios/Pods/
+ios/build/
+android/.gradle/
+android/app/build/
+android/build/
+*.orig.*
+
+# Expo
+.expo/
+web-build/
+
+# Testing & Coverage
+coverage/
+.nyc_output/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db

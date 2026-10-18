@@ -1,0 +1,22 @@
+{
+  "login.title": "रुग्णांचे लॉगिन",
+  "login.id_label": "रुग्ण आयडी",
+  "login.pin_label": "४ अंकी सुरक्षित पिन",
+  "login.submit": "पुढे जा (लॉगिन करा)",
+  "reminders.title": "आजची औषधे",
+  "reminders.due_now": "आत्ता घ्या",
+  "reminders.taken": "औषध घेतले",
+  "reminders.upcoming": "पुढील वेळ",
+  "reminders.missed": "चुकले",
+  "action.take_it": "मी औषध घेतले",
+  "action.snooze": "१० मिनिटांनी आठवण करा",
+  "action.call_patient": "रुग्णाला कॉल करा",
+  "profile.emergency": "तातडीचा संपर्क",
+  "profile.call_now": "लगेच कॉल करा",
+  "profile.text_size": "अक्षरांचा आकार",
+  "caregiver.dashboard": "आईचे औषध ट्रॅकर",
+  "caregiver.adherence_rate": "७ दिवसांचे प्रमाण",
+  "caregiver.alerts_title": "तातडीच्या सूचना",
+  "caregiver.add_schedule": "नवीन औषध जोडा",
+  "caregiver.patient_paired": "जोडलेले रुग्ण"
+}

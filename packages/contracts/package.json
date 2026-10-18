@@ -1,0 +1,52 @@
+{
+  "name": "@internal/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
+    },
+    "./feed": {
+      "types": "./dist/feed.d.ts",
+      "import": "./dist/feed.mjs",
+      "default": "./dist/feed.js"
+    },
+    "./user": {
+      "types": "./dist/user.d.ts",
+      "import": "./dist/user.mjs",
+      "default": "./dist/user.js"
+    },
+    "./scenes": {
+      "types": "./dist/scenes.d.ts",
+      "import": "./dist/scenes.mjs",
+      "default": "./dist/scenes.js"
+    },
+    "./quests": {
+      "types": "./dist/quests.d.ts",
+      "import": "./dist/quests.mjs",
+      "default": "./dist/quests.js"
+    },
+    "./auth": {
+      "types": "./dist/auth.d.ts",
+      "import": "./dist/auth.mjs",
+      "default": "./dist/auth.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/feed.ts src/user.ts src/scenes.ts src/quests.ts src/auth.ts --format cjs,esm --dts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --test-reporter=spec || true"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3"
+  }
+}
