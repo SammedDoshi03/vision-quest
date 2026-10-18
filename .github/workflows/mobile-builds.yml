@@ -76,6 +76,9 @@ jobs:
       - name: Install workspace dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Add workspace binaries to PATH
+        run: echo "$GITHUB_WORKSPACE/node_modules/.bin" >> $GITHUB_PATH
+
       - name: Build Contracts package
         run: pnpm --filter @internal/contracts build
 
@@ -84,8 +87,7 @@ jobs:
 
       - name: Generate Android Native Prebuild (Expo CNG)
         run: |
-          cd apps/mobile
-          CI=1 npx --yes expo prebuild --platform android --clean --no-install
+          CI=1 pnpm --filter @resonance/mobile exec expo prebuild --platform android --clean --no-install
         env:
           EXPO_NO_TELEMETRY: '1'
           CI: '1'
@@ -157,13 +159,15 @@ jobs:
       - name: Install workspace dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Add workspace binaries to PATH
+        run: echo "$GITHUB_WORKSPACE/node_modules/.bin" >> $GITHUB_PATH
+
       - name: Build Contracts package
         run: pnpm --filter @internal/contracts build
 
       - name: Generate iOS Native Prebuild (Expo CNG)
         run: |
-          cd apps/mobile
-          CI=1 npx --yes expo prebuild --platform ios --clean --no-install
+          CI=1 pnpm --filter @resonance/mobile exec expo prebuild --platform ios --clean --no-install
         env:
           EXPO_NO_TELEMETRY: '1'
           CI: '1'
