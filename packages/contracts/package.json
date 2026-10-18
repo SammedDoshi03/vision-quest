@@ -40,7 +40,7 @@
   "scripts": {
     "build": "tsup src/index.ts src/feed.ts src/user.ts src/scenes.ts src/quests.ts src/auth.ts --format cjs,esm --dts",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test test/**/*.test.ts"
+    "test": "tsx --test test/*.test.ts"
   },
   "dependencies": {
     "zod": "^3.23.8"
