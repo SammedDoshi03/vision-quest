@@ -20,3 +20,4 @@ export function useTheme(): ThemeTokens {
 
 export * from './tokens';
 export * from './globalStyles';
+export * from './stitch';

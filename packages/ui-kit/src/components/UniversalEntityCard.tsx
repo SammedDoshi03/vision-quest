@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { stitchElevations, stitchShapes } from '../theme/stitch';
 
 export interface UniversalEntityCardProps {
   title: string;
@@ -133,22 +134,19 @@ export function UniversalEntityCard({
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 16,
+    borderRadius: stitchShapes.large,
     borderWidth: 1.5,
     borderColor: '#E2E8F0',
     padding: 16,
     marginBottom: 14,
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
+    ...stitchElevations.level1,
   },
   accessibleCard: {
-    borderRadius: 20,
+    borderRadius: stitchShapes.extraLarge,
     borderWidth: 2,
     borderColor: '#CBD5E1',
     padding: 20,
+    ...stitchElevations.level2,
   },
   headerRow: {
     flexDirection: 'row',
