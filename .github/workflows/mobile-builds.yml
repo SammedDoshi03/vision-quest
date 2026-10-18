@@ -85,9 +85,10 @@ jobs:
       - name: Generate Android Native Prebuild (Expo CNG)
         run: |
           cd apps/mobile
-          npx --yes expo prebuild --platform android --clean --no-install
+          CI=1 npx --yes expo prebuild --platform android --clean --no-install
         env:
           EXPO_NO_TELEMETRY: '1'
+          CI: '1'
 
       # Build APK for testing, sideloading, and QA matrix
       - name: Assemble Android APK
@@ -162,9 +163,10 @@ jobs:
       - name: Generate iOS Native Prebuild (Expo CNG)
         run: |
           cd apps/mobile
-          npx --yes expo prebuild --platform ios --clean --no-install
+          CI=1 npx --yes expo prebuild --platform ios --clean --no-install
         env:
           EXPO_NO_TELEMETRY: '1'
+          CI: '1'
 
       - name: Cache CocoaPods
         uses: actions/cache@v4

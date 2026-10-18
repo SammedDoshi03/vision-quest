@@ -74,9 +74,10 @@ jobs:
       - name: Generate Android Native Prebuild (Expo CNG)
         run: |
           cd apps/mobile
-          npx --yes expo prebuild --platform android --clean --no-install
+          CI=1 npx --yes expo prebuild --platform android --clean --no-install
         env:
           EXPO_NO_TELEMETRY: '1'
+          CI: '1'
 
       - name: Assemble Android APK
         run: |
